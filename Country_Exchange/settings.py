@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 import os
 from pathlib import Path
 import environ
+import dj_database_url
 
 env = environ.Env(
     DEBUG=(bool, False)
@@ -95,7 +96,16 @@ DATABASES = {
 
     # }
 }
-
+# PostgreSQL Database
+DATABASES = {
+    'default': dj_database_url.config(
+        default=os.getenv('DATABASE_URL'),
+        conn_max_age=600,
+        ssl_require=True
+    )
+}
+# DATABASES['default'] = dj_database_url.parse(env('DATABASE_URL'))
+#postgresql://country_exchange_db_user:RA3tNm3tlJfp3RwBsOjKHqCOfyAaoxHZ@dpg-d3v8d3ogjchc73fakehg-a.oregon-postgres.render.com/country_exchange_db
 
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
